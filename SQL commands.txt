@@ -1,0 +1,400 @@
+
+# go to online jdoodle.com and select IDE as SQL
+===================================================
+
+#create a table and inser data into table
+create table employee
+
+(
+
+empid int ,
+
+empname varchar(255),
+
+age int,
+
+phonenumber int,
+
+emailid varchar(255),
+
+address varchar(255)
+
+);
+
+insert into employee values(1202421,"saurav",27,9894506053,"saurav6295@yahoo.com","lch 112");
+
+insert into employee values(1202492,"saurav2",28,9894506054,"saurav6296@yahoo.com","lch 113");
+
+insert into employee values(1202493,"saurav3",29,9894506055,"saurav6297@yahoo.com","lch 114");
+
+insert into employee values(1202494,"saurav4",30,9894506056,"saurav6298@yahoo.com","lch 115");
+
+insert into employee values(1202495,"saurav5",31,9894506057,"saurav6299@yahoo.com","lch 116");
+------------------------------------------------------------------------------------------
+#what error you get if you give less number of data than column size while inserting 
+Error: near line 11: table employee has 6 columns but 5 values were supplied
+
+--------------------------------------------------------------------------------------------------------------------------------------
+#if you don't give varchar values into double quotes
+
+Error: near line 11: no such column: saurav2
+======================================================
+#count number of rows in a table
+select count(*) from employee;
+=================================================
+#use where clause to find an employees whose greater than 28
+select * from employee where age>=28;
+===============================================
+#How to comment in sql
+control+forward slash -->for both comment and uncomment
+-- select * from employee;
+-- select count(*) from employee;
+======================================================
+# where -and clause
+select * from employee where age=27 and empname="saurav";
+
+=================================================
+#fetch only distinct data from table
+select distinct * from employee;
+========================================
+#count rows having distinct empname
+select count (distinct empname) from employee;
+========================================
+#fetch data in ascending order
+select * from employee order by empid;
+or
+select * from employee order by empid asc;
+=======================================
+#fetch data in descending order
+select * from employee order by empid desc;
+=========================================
+#fetch data in ascending order using two columns
+select * from employee order by empid,age;
+note-it will first arrange based on 1st column then looks for 2nd column
+==========================================
+# OR clause
+select * from employee where age=28 or age=29;
+=============================================
+#NOT clause
+select * from employee where not age=27;
+=============================================
+#AND-NOT clause
+select * from employee where age >27 and not age=31;
+=================================================
+#Like clause
+#fetch data with certain text matches in beginning
+select * from employee where empname like 'sau%';
+============================================
+#Like clause
+#fetch data with certain text matches at end
+select * from employee where empname like '%av';
+=============================================
+#Like clause
+#fetch data with certain text present in between or at end or at beginning
+select * from employee where empname like '%av%';
+=====================================================
+#Like clause
+#fetch data from certain column having 2nd character is h
+select * from employee where empname like '_h%';
+=================================================
+#Like clause
+#fetch data from certain column value starting with s and is having at least 3 characters
+select * from employee where empname like 's__%';
+========================================================
+#Like clause
+#fetch data starting with s ending with v
+select * from employee where empname like 's%v';
+==========================================
+# IS NULL
+# fetch the row having certain column has NULL value
+select * from employee where age is null;
+=================================================
+#NOT NULL
+#fetch all rows having certain column with not null value
+select * from employee where age is not null;
+===================================================
+#Max value
+#select row with max age
+select max(age) from employee;
+====================================
+#second highest
+select max(age) from employee where age<(select max(age) from employee);
+================================================
+#Limit clause
+#fetch first 2 rows
+select * from employee limit 2;
+===================================================
+#Nth highest using desc -like clause
+#n-1,1
+#5th highest means 5-1,1
+select age from employee order by age desc limit 5-1,1;
+===========================================================
+#declare primary key column in sql
+create table employee
+
+(
+
+empid int not null,
+
+empname varchar(255),
+
+age int,
+
+phonenumber int,
+
+emailid varchar(255),
+
+address varchar(255),
+Primary key(empid)
+);
+
+
+==================================================
+#primary key on multiple columns
+#just create a hypothetical column x which is derived from considering two columns empid and emailid
+#note both empid and emailid must not contain null values
+(
+
+empid int not null,
+
+empname varchar(255),
+
+age int,
+
+phonenumber int,
+
+emailid varchar(255),
+
+address varchar(255),
+constraint x primary key (empid,emailid)
+);
+
+
+=========================================
+#defining primary key constraint for existing table,suppose you forgot to define primary key in the beginning
+alter table employee add primary key (empid);
+================================================
+#delete primary key constraint from existing table
+alter table employee drop primary key (empid);
+============================================
+XAMPP
+-start apache
+-start mysql--->click on admin
+=====================================
+#xampp create table
+directly by clicking create
+or
+CREATE table band (NAME TEXT,department text);
+insert into band values ('saurav','chemical');
+select * from band;
+=========================================================
+#fetch all data from a table in xampp
+SELECT * FROM `student` WHERE 1;
+==================================================
+# cross join two tables
+#final table created after cross join will be (table1,table2)
+SELECT * FROM table1 cross join table2;
+=======================================
+#delete a table
+drop table TableName;
+=================================
+#delete certain number of rows in a table
+DELETE FROM bloodgroup WHERE groupvalue between 5 and 10
+=========================================
+#use concat to keep values of two tables together without space
+SELECT CONCAT(X.GROUPVALUE,Y.RH) FROM BLOODGROUP X CROSS JOIN RHVALUE Y;
+==============================================================
+#already cross joined
+#now i want to see cross joined tables with column name as crossjoin
+SELECT CONCAT(X.GROUPVALUE,Y.RH) as crossjoin FROM BLOODGROUP X CROSS JOIN RHVALUE Y;
+============================================================
+#already cross joined
+#you want to insert hyphen(_) between colun values
+SELECT CONCAT_ws('-',X.GROUPVALUE,Y.RH) as crossjoin FROM BLOODGROUP X CROSS JOIN RHVALUE Y;
+================================================================
+#already cross join exists
+#you do not want to use any concate
+SELECT X.GROUPVALUE,Y.RH  FROM BLOODGROUP X CROSS JOIN RHVALUE Y;
+or
+SELECT GROUPVALUE,RH  FROM BLOODGROUP CROSS JOIN RHVALUE ;
+======================================================
+#update certain column in a table
+update employee set departmentid=30 where empname='saurav';
+=========================================================
+#inner join
+select x.custid,x.custname,y.custtable,y.custid
+from customer X
+inner join location Y
+ON
+x.custid=y.custid;
+
+============================================
+#left join
+select x.custid,x.custname,y.custtable,y.custid
+from customer x
+left outer join
+on
+x.custid=y.custid;
+===============================
+#Left join with where clause
+#give only those rows after left join where amount>200
+select x.custid,x.custname,y.custtable,y.custid
+from customer x
+left outer join
+on
+x.custid=y.custid;
+where x.amount>2000;
+===============================================
+#right join
+select x.custid,x.custname,y.custtable,y.custid
+from customer x
+right outer join
+on
+x.custid=y.custid;
+===================================
+#full join- for full join use union clause as full outer join keyword might not work
+#left join union right join
+select x.custid,x.custname,y.custtable,y.custid
+from customer x
+left outer join
+on
+x.custid=y.custid;
+union
+select x.custid,x.custname,y.custtable,y.custid
+from customer x
+right outer join
+on
+x.custid=y.custid;
+=================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
